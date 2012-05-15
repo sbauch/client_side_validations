@@ -2,9 +2,10 @@ module ClientSideValidations::ActiveRecord
   module Uniqueness
     def client_side_hash(model, attribute)
       hash = {}
+      hash[:allow_blank] = options[:allow_blank]
+      hash[:allow_nil] = options[:allow_nil]      
       hash[:message] = model.errors.generate_message(attribute, message_type, options.except(:scope))
       hash[:case_sensitive] = options[:case_sensitive]
-      hash[:allow_blank] = options[:allow_blank]
       hash[:id] = model.id unless model.new_record?
       if options.key?(:scope) && options[:scope].present?
         hash[:scope] = Array.wrap(options[:scope]).inject({}) do |scope_hash, scope_item|
